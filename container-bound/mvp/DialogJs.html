@@ -1,0 +1,18 @@
+<script>
+    const btn = document.querySelector('.adder');
+    const sectionText = document.querySelector('.section_text');
+    
+    btn.addEventListener('click',()=>{
+      const sectionTitle = document.querySelector('.sectionTitle').value;
+      console.log(sectionTitle.value);
+      function onSuccess(results){
+        if (!results){
+          google.script.host.close();
+        }
+      }
+      google.script.run.withSuccessHandler(onSuccess)
+        .addLockedSection(sectionTitle, text);
+  
+    });
+  
+  </script>

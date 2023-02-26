@@ -1,34 +1,29 @@
 // DocumentApp.openById('1kI2BLxrb0oSxyXBqaqBQ8Nb_ArtyMAHb_LlvhdldW_g')
-
-// function addToDoc(){
-//     const id = '1kI2BLxrb0oSxyXBqaqBQ8Nb_ArtyMAHb_LlvhdldW_g';
-//     const doc = DocumentApp.openById(id);
-//     const body = doc.getBody();
-//     body.appendParagraph('Hello World');
-//     body.appendPageBreak();
-//     Logger.log(doc);
-// }
-
-function onOpen(e){
-  getAllEditors(e);
+function onOpen(){
   const ui = DocumentApp.getUi();
-  ui.createMenu('Custom Menu')
+  ui.createMenu('Add on')  
       .addItem('Sidebar', 'openSidebar')
       .addItem('Dialog Box', 'openDialog')
       .addToUi();
 }
 
+function onInstall(){
+  onOpen();
+};
+
 function reportSelection () {
   var doc = DocumentApp.getActiveDocument();
   var selection = doc.getSelection();
   var ui = DocumentApp.getUi();
-
+  
   var report = "Your Selection: ";
 
   if (!selection) {
     report += " No current selection ";
+    ui.alert( report );
   }
-  else {
+
+  else if (selection){
     var elements = selection.getSelectedElements();
     // Report # elements. For simplicity, assume elements are paragraphs
     // report += " Paragraphs selected: " + elements.length + ". ";
@@ -49,15 +44,16 @@ function reportSelection () {
       endOffset = startOffset + selectedText.length - 1;
 
       // Now ready to hand off to format, setLinkUrl, etc.
-      report += " Selected text is: '" + selectedText + "', ";
-      report += " and is " + (elements[0].isPartial() ? "part" : "all") + " of the paragraph."
+      openDialog(selectedText)
+      // report += " Selected text is: '" + selectedText + "', ";
+      // report += " and is " + (elements[0].isPartial() ? "part" : "all") + " of the paragraph."
       Logger.log(selectedText);
     }
   }
-  ui.alert( report );
+  
 }
 
-function getAllEditors(e) {
+function getAllEditors() {
   // const user = Session.getEffectiveUser().getEmail();
   const doc = DocumentApp.getActiveDocument();
 
@@ -74,20 +70,27 @@ function getAllEditors(e) {
     console.log('Failed with error %s', err.message);
   }
  
-  Logger.log(PropertiesService.getDocumentProperties().getProperties());
+  return PropertiesService.getDocumentProperties();
 }
 
 function openSidebar(){
-  const html = HtmlService.createHtmlOutputFromFile('Sidebar');
+  const html = HtmlService.createTemplateFromFile('Sidebar').evaluate();
   DocumentApp.getUi().showSidebar(html);
   // reportSelection()
 }
 
-function openDialog(){
-  const html = HtmlService.createHtmlOutput(`<p>${PropertiesService.getDocumentProperties().getProperty('user')}</p>`)
-      .setWidth(600)
-      .setHeight(500);
+function openDialog(selectedText){
+  // const selectedText = "mes";
+  let html = HtmlService.createTemplateFromFile('Dialog');
+  html.data = selectedText;
+  html = html.evaluate();
   DocumentApp.getUi().showDialog(html);
+
+}
+
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename)
+      .getContent();
 }
 
 

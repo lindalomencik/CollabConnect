@@ -1,0 +1,35 @@
+<!-- <script>
+    const text = <?!= JSON.stringify(data) ?>;
+    console.log(text);
+</script> -->
+  
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+</head>
+<body>
+    <div>
+    <h2>Add a new locked sectin</h2>
+    <p>You selected a paragraph to be locked so other users can’t access it.</p>
+    <p>Please, give the selected text a fitting title:</p>
+    <input class="sectionTitle" type="text" placeholder="Title" required>
+    </div>
+    <div class="output"></div> 
+    <script>
+    console.log(text);
+    const output = document.querySelector(".output");
+    const div = document.createElement('div');
+    const p = document.createElement('p');
+    p.textContent = text;
+    div.append(p);
+    output.append(div);
+    </script>
+    <div>
+    <h2>Add New Section</h2>
+    <button type="button" class="adder">Add</button>
+    <?!= include('DialogJs'); ?>
+</div>
+</body>
+</html>
+  

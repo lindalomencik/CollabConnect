@@ -1,0 +1,16 @@
+[{
+	"id": 0,
+	"title": "Title 1",
+	"text": "Selecte Text",
+	"collaborator": "lindalomencikova@gmail.com"
+}, {
+	"id": 1,
+	"title": "Title 2",
+	"text": "Selecte Text that is a bit longer",
+	"collaborator": "sighted.user.test1@gmail.com"
+}, {
+	"id": 2,
+	"title": "Title 3",
+	"text": "Lorem Ipsum",
+	"collaborator": "lindalomencikova@gmail.com"
+}]
