@@ -4,14 +4,27 @@
     
     btn.addEventListener('click',()=>{
       const sectionTitle = document.querySelector('.sectionTitle').value;
-      console.log(sectionTitle.value);
+      function onFailure(err){
+        console.log(err);
+      }
+  
       function onSuccess(results){
         if (!results){
           google.script.host.close();
+          google.script.run.updateLockedSections();
+        } else{
+          console.log(results);
         }
       }
-      google.script.run.withSuccessHandler(onSuccess)
-        .addLockedSection(sectionTitle, text);
+      if(sectionTitle){
+        google.script.run.withSuccessHandler(onSuccess)
+          .addLockedSection(sectionTitle, text);
+        google.script.run.withFailureHandler(onFailure)
+          .addLockedSection(sectionTitle, text);
+      }else{
+        console.log("empty title");
+      }
+      
   
     });
   

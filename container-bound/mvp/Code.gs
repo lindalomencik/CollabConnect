@@ -58,7 +58,7 @@ function getAllEditors() {
   const doc = DocumentApp.getActiveDocument();
 
   var editors = doc.getEditors();
-  const colours = ['blue', 'red', 'yellow'];
+  const colours = ['blue', 'red', 'yellow', 'pink'];
   try{
     const documentProperties = PropertiesService.getDocumentProperties();
       for (editor in editors){
@@ -70,7 +70,7 @@ function getAllEditors() {
     console.log('Failed with error %s', err.message);
   }
  
-  return PropertiesService.getDocumentProperties();
+  return PropertiesService.getDocumentProperties().getProperties();
 }
 
 function openSidebar(){

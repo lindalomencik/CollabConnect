@@ -9,9 +9,6 @@ function getConnection(){
     const conn = Jdbc.getCloudSqlConnection(url, username, password);
     Logger.log(conn);
   
-    const sql1 = `INSERT INTO locked_sections (id, title, text, author, date) 
-    VALUES (1, "Title 2", "Lorem Ipsum 2", "lindalomencikova@gmail.com", 	"2012-11-11");`;
-  
     const sql3 = `UPDATE locked_sections SET title="Title 1" WHERE id="0";`;
     //update statement - must be data manipulation stm or statement that return nothing
     // let update = statement.executeUpdate(sql3);
@@ -44,14 +41,17 @@ function getConnection(){
   }
   
   function addLockedSection(sectionTitle, sectionText){
-    let conn = getConnection();
-    let statement = conn.createStatement();
-  
-    if (sectionTitle && sectionText){
-      const sql1 = `INSERT INTO locked_sections (id, title, text, author, date) VALUES (4, '${sectionTitle}', '${sectionText}', "lindalomencikova@gmail.com", "2012-11-11");`;
-      //general statement
+    
+    try {
+      const conn = getConnection();
+      let statement = conn.createStatement();
+      const sql1 = `INSERT INTO locked_sections (title, text, author, date) VALUES ('${sectionTitle}', '${sectionText}', "lindalomencikova@gmail.com", "2012-11-11");`;
       let results = statement.execute(sql1);
-      Logger.log(results);
       return results;
+  
+    } catch (err) {
+      // TODO(developer) - Handle exception from the API
+      console.log('Failed with an error %s', err.message);
+      return err.message;
     }
   }

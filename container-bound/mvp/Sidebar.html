@@ -1,4 +1,5 @@
-<!-- Hello, world! <input type="button" value="Close" onclick="google.script.host.close()" /> -->
+<?!= include('SidebarJs'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,61 +8,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <style>
-      #collaborator {
+    <!-- <style>
+      .collaborator {
         color: red;
       }
-    </style>
+    </style> -->
 
 </head>
 <body>
-  <div>
+  <div class="collab_list">
     <h2>Collaborators</h2>
-    <? var editors = getAllEditors(); ?>
-    <? for (i in editors.getKeys()) { ?>
-        <p id = "collaborator"><?= editors.getKeys()[i]; editors.getProperty(editors.getKeys()[i]); ?></p>
-    <? } ?>
+    <script>listCollaborators();</script>
   </div>
   <div class="output">
     <h2>Locked Sections</h2>
-    <script>
-
-      function onFailure(error) {
-        var div = document.getElementById('output');
-        div.innerHTML = "ERROR: " + error.message;
-      }
-
-      function onSuccess(lockedSections) {
-        console.log(lockedSections);
-        const output = document.querySelector(".output");
-        for (i in lockedSections){
-          const div = document.createElement('div');
-          const h3 = document.createElement('h3');
-          const p1 = document.createElement('p');
-          const p2 = document.createElement('p');
-          h3.textContent = lockedSections[i][1];
-          p1.textContent = lockedSections[i][2];
-          p2.textContent = lockedSections[i][3];
-          div.append(h3);
-          div.append(p1);
-          div.append(p2);
-          output.append(div);
-
-        }
-      }
-      google.script.run.withFailureHandler(onFailure)
-        .getAllLockedSections();
-      google.script.run.withSuccessHandler(onSuccess)
-        .getAllLockedSections();
-    </script>
-
+    <script> updateLockedSections();</script>
   </div>
   <div>
     <h2>Add New Section</h2>
-    <button type="button" class="adder">Add New Locked Section</button>
+    <button type="button" class="adder" onclick="addButton()" >Add New Locked Section</button>
   </div>
-
-  <?!= include('SidebarJs'); ?>
 
 </body>
 </html>
