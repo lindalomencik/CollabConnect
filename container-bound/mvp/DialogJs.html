@@ -1,31 +1,31 @@
 <script>
-    const btn = document.querySelector('.adder');
-    const sectionText = document.querySelector('.section_text');
+  const btn = document.querySelector('.adder');
+  const sectionText = document.querySelector('.section_text');
+  
+  btn.addEventListener('click',()=>{
+    const sectionTitle = document.querySelector('.sectionTitle').value;
+    function onFailure(err){
+      console.log(err);
+    }
+
+    function onSuccess(results){
+      if (!results){
+        google.script.host.close();
+        google.script.run.updateLockedSections();
+      } else{
+        console.log(results);
+      }
+    }
+    if(sectionTitle){
+      google.script.run.withSuccessHandler(onSuccess)
+        .addLockedSection(sectionTitle, text);
+      google.script.run.withFailureHandler(onFailure)
+        .addLockedSection(sectionTitle, text);
+    }else{
+      console.log("empty title");
+    }
     
-    btn.addEventListener('click',()=>{
-      const sectionTitle = document.querySelector('.sectionTitle').value;
-      function onFailure(err){
-        console.log(err);
-      }
-  
-      function onSuccess(results){
-        if (!results){
-          google.script.host.close();
-          google.script.run.updateLockedSections();
-        } else{
-          console.log(results);
-        }
-      }
-      if(sectionTitle){
-        google.script.run.withSuccessHandler(onSuccess)
-          .addLockedSection(sectionTitle, text);
-        google.script.run.withFailureHandler(onFailure)
-          .addLockedSection(sectionTitle, text);
-      }else{
-        console.log("empty title");
-      }
-      
-  
-    });
-  
-  </script>
+
+  });
+
+</script>

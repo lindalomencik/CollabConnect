@@ -56,6 +56,7 @@ function reportSelection () {
 function getAllEditors() {
   // const user = Session.getEffectiveUser().getEmail();
   const doc = DocumentApp.getActiveDocument();
+  
 
   var editors = doc.getEditors();
   const colours = ['blue', 'red', 'yellow', 'pink'];
@@ -92,5 +93,51 @@ function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename)
       .getContent();
 }
+
+// function getElement(className) {
+//   var body =DocumentApp.getActiveDocument().getBody();
+//   var elements = [];
+//   Logger.log(body.getChild(0));
+
+//   var numChildren = body.getNumChildren();
+//   for (var i = 0; i < numChildren; i++) {
+//     var child = body.getChild(i);
+//     if (child.getType() === DocumentApp.ElementType.TABLE) {
+//       var table = child.asTable();
+//       var numRows = table.getNumRows();
+//       var numCols = table.getNumColumns();
+//       for (var row = 0; row < numRows; row++) {
+//         for (var col = 0; col < numCols; col++) {
+//           var cell = table.getCell(row, col);
+//           var cellElements = cell.getChild(0).getElementsByTag('p');
+//           for (var j = 0; j < cellElements.length; j++) {
+//             var element = cellElements[j];
+//             if (element.asParagraph().getText().indexOf(className) !== -1) {
+//               elements.push(element);
+//             }
+//           }
+//         }
+//       }
+//     } else if (child.getType() === DocumentApp.ElementType.PARAGRAPH) {
+//       var element = child.asParagraph();
+//       if (element.getText().indexOf(className) !== -1) {
+//         elements.push(element);
+//       }
+//     }
+//   }
+
+//   return elements;
+// }
+
+// function getHtmlContent(){
+//   options = {muteHttpExceptions: true};
+//   var html = UrlFetchApp.fetch('https://docs.google.com/document/d/1kI2BLxrb0oSxyXBqaqBQ8Nb_ArtyMAHb_LlvhdldW_g/mobilebasic', options).get;
+//   // var doc = XmlService.parse(html);
+//   // var html = doc.getRootElement();
+//   // var menu = getElementsByClassName(html, 'menu-classname')[0];
+//   Logger.log(html);
+//   return html;
+// }
+
 
 

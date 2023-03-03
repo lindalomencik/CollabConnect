@@ -1,0 +1,41 @@
+{
+    "name": "Rainbow Cursor for Google Docs",
+    "short_name": "Rainbow Crsr",
+    "version": "2.0.0",
+    "manifest_version": 3,
+    "description": "Make your cursor rainbow in Google Docs.",
+    "action": {
+        "default_title": "Upcoming Toronto Concerts"
+    },
+    "background" : {
+        "service_worker": "background.js"
+    },
+    "web_accessible_resources": [{
+        "resources": ["index.html"],
+        "matches": ["<all_urls>"]
+      }],
+    "commands": {
+        "displayModal": {
+            "suggested_key": {
+                "default": "Shift+Alt+1"
+            },
+            "description": "Display the dialog box"
+        }
+    },
+    "content_scripts": [
+     {
+       "matches": ["https://docs.google.com/document/*"],
+       "js": ["content.js"],
+       "run_at": "document_start"
+     }
+    ],
+  
+    "permissions": [
+      "tabs",
+      "system.display"
+    ],
+    "host_permissions": [
+        "https://docs.google.com/document/*",
+        "http://docs.google.com/document/*"
+    ]
+  }
