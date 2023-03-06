@@ -5,7 +5,8 @@
     "manifest_version": 3,
     "description": "Make your cursor rainbow in Google Docs.",
     "action": {
-        "default_title": "Upcoming Toronto Concerts"
+        "default_title": "Upcoming Toronto Concerts",
+        "default_icon":"icon.png"
     },
     "background" : {
         "service_worker": "background.js"
@@ -14,22 +15,13 @@
         "resources": ["index.html"],
         "matches": ["<all_urls>"]
       }],
-    "commands": {
-        "displayModal": {
-            "suggested_key": {
-                "default": "Shift+Alt+1"
-            },
-            "description": "Display the dialog box"
-        }
-    },
     "content_scripts": [
      {
        "matches": ["https://docs.google.com/document/*"],
-       "js": ["content.js"],
-       "run_at": "document_start"
+       "js": ["content.js"]
      }
     ],
-  
+
     "permissions": [
       "tabs",
       "system.display"

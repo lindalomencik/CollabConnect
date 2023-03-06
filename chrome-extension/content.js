@@ -1,3 +1,4 @@
+// chrome.runtime.onMessage.addListener(gotMessage);
 var docHTMLElementMap = [];
 var docHTMLContextJSON = [];
 function getUpdatedDoc() {
@@ -31,10 +32,7 @@ function getUpdatedDoc() {
     // console.log("Final State: ", docHTMLElementMap);
 }
 
-window.addEventListener("load", function(event) {
-    // console.log(document.getElementsByClassName('').length);
-
-    getUpdatedDoc();
+function getElem(){
     const div = document.createElement('div');
     var collaborator_cursors = document.getElementsByClassName("kix-cursor docs-ui-unprintable");
     console.log(collaborator_cursors);
@@ -52,16 +50,82 @@ window.addEventListener("load", function(event) {
     let onlineCollabs = document.querySelectorAll(".docs-presence-plus-collab-widget-container.goog-inline-block.docs-presence-plus-collab-widget-focus");
     console.log("onlineCollabs:", onlineCollabs);
 
+}
+
+window.addEventListener("load", function(event) {
+    // console.log(document.getElementsByClassName('').length);
+
+    getUpdatedDoc();
+    getElem();
+   
 });
 
-chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
-    // Called at start to connect to socket
-    currentURL = req.url;
+// chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+//     // Called at start to connect to socket
+//     currentURL = req.url;
     
-    if  (req.message === "displayModal"){
-        getCollabStates();
-        console.log("called");
-        return true;
-    }
-});
+//     if  (req.message === "displayModal"){
+//         getCollabStates();
+//         console.log("called");
+//         return true;
+//     }
+// });
+function createModal(){
+    chrome.system.display.getInfo({ singleUnified: true }, (info) => {
+        console.log("gher");
+        const wDimension = info[0].workArea;
+        const { top, left, height, width } = wDimension;
+        console.log(top);
+        const w = 440;
+        const h = 220;
+        const l = width / 2 - w / 2 + left;
+        const t = height / 2 - h / 2 + top;
+        const newWindow = () => {
+          console.log('in new window function');
+        };
+        chrome.windows.create(
+          {
+            url: 'index.html',
+            type: 'popup',
+            width: w,
+            height: h,
+            left: Math.round(l),
+            top: Math.round(t),
+          },
+          newWindow
+        );
+        
+      });
+}
 
+// (()=>{
+//     let currentUrl = "";
+//     chrome.runtime.onMessaqe.addListener((obj, sender,response)=>{
+//         const {message, url} = obj;
+//         if(message === "displayDialog") {
+//             currentUrl = url;
+//             createModal();
+//         }
+
+//     })
+// })();
+
+
+
+//   chrome.runtime.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//       console.log(sender.tab ?
+//                   "from a content script:" + sender.tab.url :
+//                   "from the extension");
+//       if (request.greeting === "hello")
+//         sendResponse({farewell: "goodbye"});
+//     }
+//   );
+
+// content.js
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.color === "green") {
+      document.body.style.backgroundColor = "green";
+      sendResponse({ status: "done" });
+    }
+  });
