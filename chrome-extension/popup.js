@@ -1,14 +1,30 @@
-// popup.js
-const sendMessageButton = document.getElementById("sendMessage");
-sendMessageButton.onclick = async function (e) {
-  let queryOptions = { active: true, currentWindow: true };
-  let tab = await chrome.tabs.query(queryOptions);
+// chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+//     alert("I am popup!");
+//     sendResponse({
+//         data: "I am fine, thank you. How is life in the background?"
+//     }); 
+// });
 
-  chrome.tabs.sendMessage(
-    tabs[0].id,
-    { color: "#00FF00" },
-    function (response) {
-      console.log(response.status);
+// chrome.runtime.onMessage.addListener(
+//     function(request, sender, sendResponse) {
+//         const { type, value, videoId } = request;
+//         console.log(type);
+//     }
+// );
+
+document.addEventListener("DOMContentLoaded", function(){
+    document.getElementById("button1").addEventListener("click", function(){
+        alert("The button has been clicked on")
+        var body = document.getElementsByTagName("body")[0].style.backgroundColor = "aqua";
+    });
+})
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        if (request.message === "from the dom") {
+            console.log("from dom");
+            console.log(request.cursors);
+        }
+        sendResponse({msg: "response"});
     }
-  );
-};
+);

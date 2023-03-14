@@ -1,33 +1,32 @@
 {
-    "name": "Rainbow Cursor for Google Docs",
-    "short_name": "Rainbow Crsr",
-    "version": "2.0.0",
+    "name": "Pop up turotial",
+    "description": "following a tut",
+    "version": "1.0",
     "manifest_version": 3,
-    "description": "Make your cursor rainbow in Google Docs.",
-    "action": {
-        "default_title": "Upcoming Toronto Concerts",
-        "default_icon":"icon.png"
-    },
-    "background" : {
-        "service_worker": "background.js"
+    "content_scripts": [
+        {
+          "matches": ["<all_urls>"],
+          "js": ["content.js", "popup.js", "/resources/jquery.min.js"]
+        }
+    ],
+    "background": {
+        "service_worker":"background.js"
     },
     "web_accessible_resources": [{
-        "resources": ["index.html"],
+        "resources": ["dialogBox.html", "popup.html"],
         "matches": ["<all_urls>"]
-      }],
-    "content_scripts": [
-     {
-       "matches": ["https://docs.google.com/document/*"],
-       "js": ["content.js"]
-     }
-    ],
-
+    }],
     "permissions": [
-      "tabs",
-      "system.display"
+        "activeTab",
+        "storage",
+        "tabs",
+        "system.display"
     ],
-    "host_permissions": [
-        "https://docs.google.com/document/*",
-        "http://docs.google.com/document/*"
-    ]
-  }
+    "action": {},
+    "commands": {
+        "inject-script": {
+          "suggested_key": "Ctrl+Shift+Y",
+          "description": "Inject a script on the page"
+        }
+    }
+}

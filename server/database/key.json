@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "docsaddonproject",
+  "private_key_id": "e51f6b6f6955569a1b0298051c59db5b77f3d768",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDN8Fqq8d7kLvit\nC38alQ1eIamiQibIOmOxPm8M/1M+NERyhBNxYsGQQFsLxidLoXMEY4DWPJEG0wk9\nBa+PmQB0wWqhL2w6roDDbAbgWhJd5vM1MRYCqPWXT1lDAIUfQW3nW29GbJxEBlBi\nXobPt4vIpCfOghaEv9WUwWort9tWAv3lajJcjEQ4MX75RkkpcUKLkNVAmHEKNuBw\nJIEP4g5sEeFdyBVmj6XFECJbEW1F51DkInnfNmWgtZ4NJ3pZMH498GRDlCqVMaCJ\nqbY1qOOZTjx3tYzTfJYRzFocs+nb0ExFsfj4MYnH9AnOroRDUQjte7Jgqudjt3ZH\nknX+P3+PAgMBAAECggEAMoz4RJPgiZR6GEgFKCpEQMH0mM6yJF4o0H4p1j/qWA+O\naam/+Aosx1L0xlwakzcLO52NJ4lwdANjdiYqJQ6CjSZZHT29zF2/X7jpqzKQ5Znm\nQz1MUNTWjBC/MXI0OyrdZngMRXYtmYkPPEZFw0Ejv9mDp+5IxscsDzq27ApSfbcH\nja2/R0OUQuj1/oEytapjkM9iMtjxSsB7kYiXxKJ1xghoxGxCdMJSNyx3+ISZaTtb\nWQfKChJknXj+g/5OzJf6ypfJyQkvXsevev/dTpcPrtvocPMc/mTL0e6QInxV4Qtv\nf0dcnQLzNSko5M88nDlpCaEvA7aqzFg1dsZDjffiyQKBgQDo4JbyoMVJ5w7QLCRD\nVpcMXMDSuH5plB5gryyRXY0PQpeW98uCJot4ri4KcZgqsE1mC8IdsaEENT49QLrd\nCPSvp/YMVtWlDYHCDL4AmS6fpCTTYR2VF0lI4WRLXgTbR1ILLK9HlUpcfDx3zQPN\nil7Zr5I4N4WAUdmbpuUatCtNDQKBgQDiYwc1Bggilg2dapf4ULXgpRD8BPTedQh4\nFU6tA/r7z/Yl+aGhsv6jfl+d1wlr3doiiUSzi5PXiB3lmL15YeKbGL7eaY3V+SIb\nlbVcK5j1THQiqFIDU/hzOgMZ+p9UIbxzkFkOmfyLlNFVWEgjmFbJC36ft9jl/tWA\noyHWhQPwCwKBgQDbu77yZPyDBQAXMO9ukm+n/IT8z5SH7njTZba52vnUolMC4gEm\nZ1RGpKNQu2qHLR964DFjb02s+MgnZ8Jp+Z9XdzZU4kJooNwEy50kV2WEwI723LXb\nDcPafsHx017lwOALJzikZJtrtNYhfFLQSHXDFUT0wn63W4PmuI2IquQIqQKBgQCE\ndN59pqbR3avfo8OBFXAlHU9ftWK0WhN3dzgOQRrzhM0HkRSB8KHOdR1q06t+glKk\nDF63En6RB+I+OOz7fUtB5eufZHEJdff/3cs8P4ICXBZDROqfad0fRh0UcTAR4J9L\nmnSQ94XtAUitv7aNpQ96GBChUMdGYqD23/vncPJJ2wKBgQDSLYtyV6Dgy6Vqf5jK\nAmO5XAbaF+RiTgyC40tvEUejnZqUKaMPQUw1mqTL97e/0lUxbBhjlBu0/qcIvolQ\nYmQ4tDTzs+DuRmqDugi3TmNE0zy/bRq7f33/gjMu8Z2fvMQJuyv5ZM8DvNPgMxzg\neKv/yA5IZrNPlDlF2XsWHgUZgQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "node-connection@docsaddonproject.iam.gserviceaccount.com",
+  "client_id": "106638586374906919746",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/node-connection%40docsaddonproject.iam.gserviceaccount.com"
+}

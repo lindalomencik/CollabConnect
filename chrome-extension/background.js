@@ -1,51 +1,78 @@
-// chrome.commands.onCommand.addListener((command) => {
+// chrome.runtime.onInstalled.addListener(()=>{
+//     console.log("hello world");
+//     chrome.runtime.sendMessage({
+//         data: "Hello popup, how are you"
+//     }, function (response) {
+//         console.log(response);
+//     });
+// })
 
-//     if (command === 'showSettings'){
-//         chrome.system.display.getInfo({ singleUnified: true }, (info) => {
-//           console.log("gher");
-//           const wDimension = info[0].workArea;
-//           const { top, left, height, width } = wDimension;
-//           console.log(top);
-//           const w = 440;
-//           const h = 220;
-//           const l = width / 2 - w / 2 + left;
-//           const t = height / 2 - h / 2 + top;
-//           const newWindow = () => {
-//             console.log('in new window function');
-//           };
-//           chrome.windows.create(
-//             {
-//               url: 'index.html',
-//               type: 'popup',
-//               width: w,
-//               height: h,
-//               left: Math.round(l),
-//               top: Math.round(t),
-//             },
-//             newWindow
-//           );
-          
-//         });
-
-      
+// chrome.tabs.onUpdated.addListener(function
+//     (tabId, changeInfo, tab) {
+//         if(changeInfo.status ===  "complete") {
+//             console.log(tab.url);
+//             url = tab.url
+    
+//                 chrome.tabs.sendMessage(tabId, {
+//                     type: "NEW",
+//                     url: url,
+//                 })
+            
+//         }
 //     }
+// );
 
-  
+chrome.commands.onCommand.addListener((command) => {
+    // console.log('hello?');
+    console.log(`Command "${command}" triggered`);
+
+    if (command === "inject-script") {
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            var activeTab = tabs[0];
+            console.log(activeTab.id);
+    
+            chrome.tabs.sendMessage(activeTab.id, {message: "displayModal"}, function
+            (response){
+                console.log(response);
+            });
+        });
+    }  
+});
+
+// chrome.commands.onCommand.addListener((command) => {
+//     console.log(`Command "${command}" triggered`);
+//     // const [tab] =  chrome.tabs.query({active: true, lastFocusedWindow: true});
+//     const tab = chrome.tabs.query({
+//         active: true,
+//         currentWindow: true
+//     });
+//     console.log(tab);
+//     chrome.tabs.sendMessage(tab, {greeting: "hello"}, function(response){
+//         console.log(response);
+//     });
+    // do something with response here, not outside the function
+   
+
+    // chrome.runtime.sendMessage({greeting: "hello"}, function(response){
+    //     console.log("response.farewell")
+    //     if(response.farewell === "goodbye"){
+    //         console.log(response.farewell);
+    //     }
+    //   });
+
+    // chrome.runtime.onMessage.addListener(
+    //     function(request, sender, sendResponse) {
+    //         console.log(sender.tab ?
+    //             "from a content script" + sender.tab.url :
+    //             "from the extension");
+    //         if (request.greeting === "hello")
+    //             sendResponse({farewell: "goodbye"});
+    //     }
+    // )
+
+//   });
+
+
+// chrome.runtime.onInstalled.addListener(() => {
 
 // })
-// chrome.tabs.onUpdated.addListener((tabId, tab)=>{
-//   // console.log(tab.url);
-//   if (tab.url && tab.url.includes("https://docs.google.com/document")){
-//     chrome.tabs.sendMessage(tabId, {
-//       text: "displayDialog",
-//       url: tab.url,
-//     })
-//   }
-// })
-
-chrome.tabs.onUpdated.addListener((tabId, tab)=>{
-  const response = chrome.runtime.sendMessage({greeting: "hello"});
-  // do something with response here, not outside the function
-  console.log(response);
-
-})

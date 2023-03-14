@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<head>
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <!-- <script src="popup.js"></script> -->
+    <!-- <script type="text/javascript" src="resources/jquery.min.js"></script> -->
+</head>
+
+<body class="bodyClass">
+    <div role="document" tabindex="-1" id="myModal" class="modal">
+        <span id="close_modal" class="modal_close">Close Window</span>
+        <h1>This is a default popup!</h1>
+        <div id="modal-content" style="display: block">
+            <div class="w3-bar w3-black">
+                <button id="tab_Collaborators" class="tab_button w3-bar-item w3-button" role='button' aria-pressed="false">Collaborators</button>
+                <button id="tab_Comments" class="tab_button w3-bar-item w3-button" role='button' aria-pressed="false">Comments</button>
+                <button id="tab_Text" class="tab_button w3-bar-item w3-button" role='button' aria-pressed="false">Text Changes</button>
+            </div>
+            <div id="Collaborators" class="changes">
+            </div>
+            
+            <div id="Comments" class="changes" style="display:none">
+            </div>
+            
+            <div id="Text" class="changes" style="display:none">
+            </div>
+        </div>
+    </div>
+</body>
