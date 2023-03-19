@@ -39,6 +39,75 @@ chrome.commands.onCommand.addListener((command) => {
     }  
 });
 
+// let myPromise = new Promise (function(myResolve, myReject){
+//     const apiCall = 'https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getAll';
+
+//         fetch(apiCall)
+//             .then(response => response.json())
+//             .then(data => {
+//                 // data = JSON.stringify(data);
+//                 const allPosts = data.data.map(loc => ({
+//                     "title": loc.title,
+//                     "text": loc.text
+//                 }));
+//                 console.log(allPosts);
+//                 posts = allPosts;
+//                 // response({status: "ready", posts: allPosts});
+//                 // response({title: allPosts.title, text: allPosts.text});
+//             })
+//             .catch(error => {
+//                 console.log(error)
+//                 response("error");
+//             });
+//     if (posts){
+//         myPromise(response);
+//     }
+// })
+
+// const fetchPosts = async () => {
+//     let allPosts;
+//     const apiCall = 'https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getAll';
+//     let res = await fetch(apiCall)
+//         .then((response) => response.json)
+//         .then(data => {
+//             data = JSON.stringify(data);
+//             const allPosts = data.data.map(loc => ({
+//                 "title": loc.title,
+//                 "text": loc.text
+//             }));
+//             allPosts = data;
+//             console.log(allPosts);
+//             return allPosts;
+//         })
+//     // console.log(response);
+//     return res;
+// }
+console.log("start");
+
+// import fetchAllPosts from "./api/fetchAllPosts";
+chrome.runtime.onInstalled.addListener( details => {
+    fetchAllPosts();
+})
+
+// async function fetchAllPosts(){
+//     const apiCall = 'https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getAll';
+//     const response = await fetch(apiCall);
+//     const posts = await response.json();
+//     return posts;
+// }
+
+// chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+//     // let posts;
+//     if(msg.name == "fetchWords"){
+//         fetchAllPosts().then(response => {
+//             console.log(response);
+//             sendResponse({complete: true, posts: response.data})
+//         })
+//     }
+//     return true;
+// });
+
+
 // chrome.commands.onCommand.addListener((command) => {
 //     console.log(`Command "${command}" triggered`);
 //     // const [tab] =  chrome.tabs.query({active: true, lastFocusedWindow: true});

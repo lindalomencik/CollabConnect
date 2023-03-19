@@ -1,6 +1,6 @@
 {
-    "name": "Pop up turotial",
-    "description": "following a tut",
+    "name": "Docs Extension",
+    "description": "api calls",
     "version": "1.0",
     "manifest_version": 3,
     "content_scripts": [
@@ -10,7 +10,7 @@
         }
     ],
     "background": {
-        "service_worker":"background.js"
+         "service_worker": "bg-loader.js" 
     },
     "web_accessible_resources": [{
         "resources": ["dialogBox.html", "popup.html"],
@@ -25,7 +25,7 @@
     "action": {},
     "commands": {
         "inject-script": {
-          "suggested_key": "Ctrl+Shift+Y",
+          "suggested_key": "Ctrl+Shift+Q",
           "description": "Inject a script on the page"
         }
     }
