@@ -105,9 +105,15 @@ const createPool = async () => {
 const ensureSchema = async pool => {
   // Wait for tables to be created (if they don't already exist).
   await pool.query(
-    `CREATE TABLE IF NOT EXISTS locked_sections
-      ( id int NOT NULL AUTO_INCREMENT, title varchar(255) NOT NULL, text varchar(255),
-      author varchar(255) NOT NULL, date date, PRIMARY KEY (id) );`
+    `CREATE TABLE IF NOT EXISTS locked_sections (
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+      doc_id INT, 
+      title VARCHAR(255) NOT NULL,
+      text TEXT,
+      author VARCHAR(100),
+      date DATE,
+      summary TEXT
+      );`
   );
   console.log("Ensured that table 'locked_sections' exists");
 };
@@ -142,13 +148,17 @@ app.use(async (req, res, next) => {
 });
 
 // Serve the index page, showing vote tallies.
-const httpGetAll = app.get('/getAll', async (req, res) => {
+const httpGetAll = app.get('/getAll/:docId', async (req, res) => {
   pool = pool || (await createPoolAndEnsureSchema());
+  const docId = req.params.docId;
+
   try {
     // Get the 5 most recent votes.
-    const allId = pool.query(
-      'SELECT title, text FROM locked_sections'
+    const allId = (
+      `SELECT id, title, text, author, summary FROM locked_sections WHERE doc_id=? AND summary IS NULL;`
     );
+
+    const postsQuery = pool.query(allId, [`${docId}`]);
 
     // // Get votes
     // const stmt = 'SELECT COUNT(vote_id) as count FROM votes WHERE candidate=?';
@@ -157,7 +167,7 @@ const httpGetAll = app.get('/getAll', async (req, res) => {
 
     // // Run queries concurrently, and wait for them to complete
     // // This is faster than await-ing each query object as it is created
-    const recentVotes = await allId;
+    const recentVotes = await postsQuery;
     console.log("Result: " + JSON.stringify(recentVotes));
     // const [tabsVotes] = await tabsQuery;
     // const [spacesVotes] = await spacesQuery;
@@ -167,6 +177,88 @@ const httpGetAll = app.get('/getAll', async (req, res) => {
     //   tabCount: tabsVotes.count,
     //   spaceCount: spacesVotes.count,
     // });
+    res.json({ data: recentVotes})
+  } catch (err) {
+    logger.error(err);
+    res
+      .status(500)
+      .send(
+        'Unable to load page. Please check the application logs for more details.'
+      )
+      .end();
+  }
+});
+
+const httpGetAllSummary = app.get('/getSummary/:docId', async (req, res) => {
+  pool = pool || (await createPoolAndEnsureSchema());
+  const docId = req.params.docId;
+
+  try {
+    // Get the 5 most recent votes.
+    const allId = (
+      `SELECT id, title, text, author, summary FROM locked_sections WHERE doc_id=? AND summary IS NOT NULL;`
+    );
+
+    const postsQuery = pool.query(allId, [`${docId}`]);
+
+    const recentVotes = await postsQuery;
+    console.log("Result: " + JSON.stringify(recentVotes));
+
+    res.json({ data: recentVotes})
+  } catch (err) {
+    logger.error(err);
+    res
+      .status(500)
+      .send(
+        'Unable to load page. Please check the application logs for more details.'
+      )
+      .end();
+  }
+});
+
+const httpGetAllEditors = app.get('/getEditors/:docId', async (req, res) => {
+  pool = pool || (await createPoolAndEnsureSchema());
+  const docId = req.params.docId;
+
+  try {
+    // Get the 5 most recent votes.
+    const allId = (
+      `SELECT name FROM collaborators WHERE doc_id=?;`
+    );
+
+    const postsQuery = pool.query(allId, [`${docId}`]);
+
+    const recentVotes = await postsQuery;
+    console.log("Result: " + JSON.stringify(recentVotes));
+
+    res.json({ data: recentVotes})
+  } catch (err) {
+    logger.error(err);
+    res
+      .status(500)
+      .send(
+        'Unable to load page. Please check the application logs for more details.'
+      )
+      .end();
+  }
+});
+
+
+const httpDelete = app.delete('/deletePost/:id', async (req, res) => {
+  pool = pool || (await createPoolAndEnsureSchema());
+  const id = req.params.id;
+
+  try {
+    // Get the 5 most recent votes.
+    const allId = (
+      `DELETE FROM locked_sections WHERE id=?;`
+    );
+
+    const postsQuery = pool.query(allId, [`${id}`]);
+
+    const recentVotes = await postsQuery;
+    console.log("Result: " + JSON.stringify(recentVotes));
+
     res.json({ data: recentVotes})
   } catch (err) {
     logger.error(err);
@@ -223,10 +315,12 @@ exports.votes = (req, res) => {
   switch (req.method) {
     case 'GET':
       httpGetAll(req, res);
+      httpGetAllSummary(req, res);
+      httpGetAllEditors(req, res);
       break;
-    // case 'POST':
-    //   httpPost(req, res);
-    //   break;
+    case 'DELETE':
+      httpDelete(req, res);
+      break;
     default:
       res.status(405).send({error: 'Something blew up!'});
       break;
