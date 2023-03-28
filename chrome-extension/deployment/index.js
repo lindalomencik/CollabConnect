@@ -196,7 +196,7 @@ const httpGetAllSummary = app.get('/getSummary/:docId', async (req, res) => {
   try {
     // Get the 5 most recent votes.
     const allId = (
-      `SELECT id, title, text, author, summary FROM locked_sections WHERE doc_id=? AND summary IS NOT NULL;`
+      `SELECT id, title, text, author, new_text, summary FROM locked_sections WHERE doc_id=? AND summary IS NOT NULL;`
     );
 
     const postsQuery = pool.query(allId, [`${docId}`]);
