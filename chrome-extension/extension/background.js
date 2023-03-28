@@ -1,147 +1,96 @@
-// chrome.runtime.onInstalled.addListener(()=>{
-//     console.log("hello world");
-//     chrome.runtime.sendMessage({
-//         data: "Hello popup, how are you"
-//     }, function (response) {
-//         console.log(response);
-//     });
-// })
-
-// chrome.tabs.onUpdated.addListener(function
-//     (tabId, changeInfo, tab) {
-//         if(changeInfo.status ===  "complete") {
-//             console.log(tab.url);
-//             url = tab.url
-    
-//                 chrome.tabs.sendMessage(tabId, {
-//                     type: "NEW",
-//                     url: url,
-//                 })
-            
-//         }
-//     }
-// );
-
+var url;
 chrome.commands.onCommand.addListener((command) => {
-    // console.log('hello?');
-    console.log(`Command "${command}" triggered`);
+  // console.log('hello?');
+  console.log(`Command "${command}" triggered`);
 
-    if (command === "inject-script") {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            var activeTab = tabs[0];
-            console.log(activeTab.id);
-    
-            chrome.tabs.sendMessage(activeTab.id, {message: "displayModal"}, function
-            (response){
-                console.log(response);
-            });
-        });
-    }  
+  if (command === "inject-script") {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      var activeTab = tabs[0];
+      url = activeTab.url;
+      console.log(activeTab.url);
+
+      if ( url.indexOf(  "https://docs.google.com/document/" ) > -1 ) {
+        chrome.tabs.sendMessage(
+          activeTab.id,
+          { message: "displayModal" },
+          function (response) {
+            console.log(response);
+          }
+        );
+      }  
+    });
+  }
 });
 
-// let myPromise = new Promise (function(myResolve, myReject){
-//     const apiCall = 'https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getAll';
+async function getCurrentTab() {
+  let queryOptions = { active: true, currentWindow: false };
+  let [tab] = chrome.tabs.query(queryOptions);
+  return tab;
+}
 
-//         fetch(apiCall)
-//             .then(response => response.json())
-//             .then(data => {
-//                 // data = JSON.stringify(data);
-//                 const allPosts = data.data.map(loc => ({
-//                     "title": loc.title,
-//                     "text": loc.text
-//                 }));
-//                 console.log(allPosts);
-//                 posts = allPosts;
-//                 // response({status: "ready", posts: allPosts});
-//                 // response({title: allPosts.title, text: allPosts.text});
-//             })
-//             .catch(error => {
-//                 console.log(error)
-//                 response("error");
-//             });
-//     if (posts){
-//         myPromise(response);
-//     }
-// })
+async function fetchSummary() {
+  // let url = getCurrentTab();
+  const myArray = url.split("/");
+  const docId = myArray[5];
 
-// const fetchPosts = async () => {
-//     let allPosts;
-//     const apiCall = 'https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getAll';
-//     let res = await fetch(apiCall)
-//         .then((response) => response.json)
-//         .then(data => {
-//             data = JSON.stringify(data);
-//             const allPosts = data.data.map(loc => ({
-//                 "title": loc.title,
-//                 "text": loc.text
-//             }));
-//             allPosts = data;
-//             console.log(allPosts);
-//             return allPosts;
-//         })
-//     // console.log(response);
-//     return res;
-// }
-console.log("start");
+  const apiCall = `https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getSummary/${docId}`;
+  const response = await fetch(apiCall);
+  const posts = await response.json();
+  return posts;
+}
 
-// import fetchAllPosts from "./api/fetchAllPosts";
-chrome.runtime.onInstalled.addListener( details => {
-    fetchAllPosts();
-})
+async function fetchLockedPosts() {
+  const myArray = url.split("/");
+  const docId = myArray[5];
 
-// async function fetchAllPosts(){
-//     const apiCall = 'https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getAll';
-//     const response = await fetch(apiCall);
-//     const posts = await response.json();
-//     return posts;
-// }
+  const apiCall = `https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getAll/${docId}`;
+  const response = await fetch(apiCall);
+  const posts = await response.json();
+  return posts;
+}
 
-// chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-//     // let posts;
-//     if(msg.name == "fetchWords"){
-//         fetchAllPosts().then(response => {
-//             console.log(response);
-//             sendResponse({complete: true, posts: response.data})
-//         })
-//     }
-//     return true;
-// });
+async function deletePost(id) {
+  console.log(id);
+  const apiCall = `https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/deletePost/${id}`;
+  const response = await fetch(apiCall, { method: 'DELETE' });
+  return response;
+}
 
+async function getAllEditors() {
+  const myArray = url.split("/");
+  const docId = myArray[5];
 
-// chrome.commands.onCommand.addListener((command) => {
-//     console.log(`Command "${command}" triggered`);
-//     // const [tab] =  chrome.tabs.query({active: true, lastFocusedWindow: true});
-//     const tab = chrome.tabs.query({
-//         active: true,
-//         currentWindow: true
-//     });
-//     console.log(tab);
-//     chrome.tabs.sendMessage(tab, {greeting: "hello"}, function(response){
-//         console.log(response);
-//     });
-    // do something with response here, not outside the function
-   
+  const apiCall = `https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/getEditors/${docId}`;
+  const response = await fetch(apiCall);
+  const posts = await response.json();
+  return posts;
+}
 
-    // chrome.runtime.sendMessage({greeting: "hello"}, function(response){
-    //     console.log("response.farewell")
-    //     if(response.farewell === "goodbye"){
-    //         console.log(response.farewell);
-    //     }
-    //   });
-
-    // chrome.runtime.onMessage.addListener(
-    //     function(request, sender, sendResponse) {
-    //         console.log(sender.tab ?
-    //             "from a content script" + sender.tab.url :
-    //             "from the extension");
-    //         if (request.greeting === "hello")
-    //             sendResponse({farewell: "goodbye"});
-    //     }
-    // )
-
-//   });
-
-
-// chrome.runtime.onInstalled.addListener(() => {
-
-// })
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  // let posts;
+  if (msg.name == "fetchLocked") {
+    fetchLockedPosts().then((response) => {
+      console.log(response);
+      sendResponse({ complete: true, allPosts: response.data });
+    });
+  }
+  if (msg.name == "fetchSummary") {
+    fetchSummary().then((response) => {
+      console.log(response);
+      sendResponse({ complete: true, allPosts: response.data });
+    });
+  }
+  if (msg.name == "deletePost") {
+    deletePost(msg.postId).then((response) => {
+      console.log(response);
+      sendResponse({ complete: true, allPosts: response.data });
+    });
+  }
+  if (msg.name == "getAllEditors") {
+    getAllEditors().then((response) => {
+      console.log(response);
+      sendResponse({ complete: true, allPosts: response.data });
+    });
+  }
+  return true;
+});

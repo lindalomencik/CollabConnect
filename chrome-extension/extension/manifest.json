@@ -9,8 +9,12 @@
           "js": ["content.js", "popup.js", "/resources/jquery.min.js"]
         }
     ],
+     "host_permissions": [
+        "http://*/*",
+        "https://*/*"
+    ],
     "background": {
-         "service_worker": "bg-loader.js" 
+         "service_worker": "background.js" 
     },
     "web_accessible_resources": [{
         "resources": ["dialogBox.html", "popup.html"],
@@ -20,7 +24,8 @@
         "activeTab",
         "storage",
         "tabs",
-        "system.display"
+        "system.display",
+        "alarms"
     ],
     "action": {},
     "commands": {

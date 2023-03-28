@@ -1,0 +1,33 @@
+CREATE TABLE documents (
+doc_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+doc VARCHAR(225) NOT NULL
+);
+
+CREATE TABLE collaborators (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+doc_id VARCHAR(225) NOT NULL,
+name VARCHAR(225) NOT NULL
+);
+
+CREATE TABLE locked_sections (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+doc_id INT, 
+title VARCHAR(255) NOT NULL,
+text TEXT,
+author VARCHAR(100),
+date DATE,
+new_text TEXT;
+summary TEXT,
+FOREIGN KEY (doc_id) REFERENCES locked_sections(id)
+);
+
+CREATE TABLE locked_sections (
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+doc_id VARCHAR(255), 
+title VARCHAR(255) NOT NULL,
+text TEXT,
+author VARCHAR(100),
+date DATE,
+new_text TEXT,
+summary TEXT
+);
