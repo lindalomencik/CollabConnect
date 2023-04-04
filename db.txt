@@ -6,7 +6,7 @@ doc VARCHAR(225) NOT NULL
 CREATE TABLE collaborators (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 doc_id VARCHAR(225) NOT NULL,
-name VARCHAR(225) NOT NULL
+name VARCHAR(225)
 );
 
 CREATE TABLE locked_sections (
@@ -23,9 +23,9 @@ FOREIGN KEY (doc_id) REFERENCES locked_sections(id)
 
 CREATE TABLE locked_sections (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-doc_id VARCHAR(255), 
+doc_id VARCHAR(255) NOT NULL, 
 title VARCHAR(255) NOT NULL,
-text TEXT,
+text TEXT NOT NULL,
 author VARCHAR(100),
 date DATE,
 new_text TEXT,

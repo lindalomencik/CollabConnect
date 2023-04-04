@@ -26,12 +26,12 @@ function writeCollaborators(tabName) {
 
     htmlStr = `<h2>Number of Collaborators: ${collabCount}</h2>`;
 
-    if (allCollaborators.length != 0){
+    if (allCollaborators.length != 0) {
       htmlStr += [`<div><h2> ${tabName} list: </h2></div>`];
       for (i in allCollaborators) {
         htmlStr += `<p>  ${allCollaborators[i]} </p>`;
       }
-      htmlStr += "<hr/>"
+      htmlStr += "<hr/>";
     }
     htmlStr += `<div><h2>Number of Editors: ${results.allPosts.length}</h2></div>`;
     htmlStr += `<div><h2>Editor list: </h2></div>`;
@@ -64,12 +64,13 @@ function writeLocked(tabName) {
 }
 
 async function deleteSummary(id) {
+  console.log("click" + id);
   await chrome.runtime.sendMessage(
     { name: "deletePost", postId: `${id}` },
     (results) => {
       console.log(results);
+      openChange("Text");
       $("#Locked").load(location.href + " #Locked");
-      writeTextChanges("Text");
     }
   );
 }
@@ -103,7 +104,6 @@ async function writeTextChanges(tabName) {
     htmlStr += `<div> <h2>${tabName} Changes list: </h2></div>`;
 
     for (let i = 0; i < results.allPosts.length; i++) {
-
       if (results.allPosts[i].summary != "null") {
         htmlStr += `<div class="output"> 
           <h4>${results.allPosts[i].title}</h4>
@@ -128,44 +128,22 @@ async function writeTextChanges(tabName) {
   });
 }
 
-
 function updateModal(changeClass) {
+  $("#modal-status").css("display", "none");
+
   if (changeClass == "Collaborators") {
     writeCollaborators("Collaborators");
   }
   if (changeClass == "Locked") {
-    writeLocked("Text");
+    writeLocked("Locked");
   }
   if (changeClass == "Text") {
-    writeTextChanges("Locked");
+    writeTextChanges("Text");
   }
 
   $(`#${changeClass}`).html("");
   $("#modal-content").css("display", "block");
   $(`#${changeClass}`).css("display", "block");
-}
-
-//CollabAlly
-function loadingModal() {
-  // $('#modal-content').css('display', "none");
-  $("#myModal").css("display", "block");
-
-  $("#tab_Collaborators").on("click", function () {
-    // console.log("Opening Collab");
-    openChange("Collaborators");
-  });
-  $("#tab_Locked").on("click", function () {
-    // console.log("Opening Comments");
-    openChange("Locked");
-  });
-
-  $("#tab_Text").on("click", function () {
-    // console.log("Opening Text Change");
-    openChange("Text");
-  });
-
-  $("#myModal").css("display", "block");
-  OpenDialog();
 }
 
 //CollabAlly
@@ -189,9 +167,50 @@ function openChange(changeName) {
 }
 
 //CollabAlly
+function loadingModal() {
+  $("#modal-status").css("display", "block");
+  $("#myModal").css("display", "block");
+
+  $("#tab_Collaborators").on("click", function () {
+    // console.log("Opening Collab");
+    openChange("Collaborators");
+  });
+  $("#tab_Locked").on("click", function () {
+    // console.log("Opening Comments");
+    openChange("Locked");
+  });
+
+  $("#tab_Text").on("click", function () {
+    // console.log("Opening Text Change");
+    openChange("Text");
+  });
+
+  $("#myModal").css("display", "block");
+  OpenDialog();
+}
+
+//CollabAlly
 function OpenDialog() {
   console.log("Opening Dialog");
-  var dialog = document.getElementById("modal-body");
+  $("#modal-status").text("Loading information");
+  focusElement = document.activeElement;
+
+  var body = document.getElementsByTagName("body");
+  // var dialog_body = document.getElementById("modal-body");
+  var dialog = document.getElementById("main_modal");
+  var landmarks = document.querySelectorAll("header, main, footer");
+  var overlay = document.getElementById("myModal");
+
+  overlay.style.display = "block";
+  body[0].style.overflow = "hidden";
+
+  for (var i = 0; i < landmarks.length; i++) {
+    landmarks[i].setAttribute("aria-hidden", "true");
+    landmarks[i].setAttribute("inert", "");
+  }
+
+  dialog.setAttribute("aria-modal", "true");
+  dialog.removeAttribute("hidden");
 
   $(".modal_close").on("click", function () {
     CloseDialog();

@@ -22,12 +22,6 @@ chrome.commands.onCommand.addListener((command) => {
   }
 });
 
-async function getCurrentTab() {
-  let queryOptions = { active: true, currentWindow: false };
-  let [tab] = chrome.tabs.query(queryOptions);
-  return tab;
-}
-
 async function fetchSummary() {
   // let url = getCurrentTab();
   const myArray = url.split("/");
