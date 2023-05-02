@@ -12,19 +12,20 @@
     "content_scripts": [
         {
           "matches": ["*://docs.google.com/document/*", "https://docsaddonproject-service-2f6jvpnqoq-uc.a.run.app/*"],
-          "js": ["content.js", "/resources/jquery.min.js"]
+          "js": ["content.js", "/resources/jquery.min.js", "dialog.js"]
         }
     ],
     "background": {
          "service_worker": "background.js" 
     },
     "web_accessible_resources": [{
-        "resources": ["dialogBox.html"],
+        "resources": ["dialog.html"],
         "matches": ["<all_urls>"]
     }],
     "permissions": [
         "activeTab"
     ],
+
     "action": {},
     "commands": {
         "inject-script": {
