@@ -1,0 +1,142 @@
+<div role="document" tabindex="-1" id="MyModal" class="modal">
+  <div
+    role="dialog"
+    id="dialog1"
+    aria-labelledby="dialog1_label"
+    aria-modal="true"
+    class="hidden"
+  >
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* The Modal (background) */
+      .modal {
+        /* display: none; Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 901; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      }
+
+      .w3-button {
+        border: none;
+        display: inline-block;
+        padding: 8px 16px;
+        vertical-align: middle;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        background-color: inherit;
+        text-align: center;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+
+      .modal_close{
+        border: none;
+        color: inherit;
+        background-color: inherit;
+      }
+
+      /* Modal Content */
+      .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      /* The Close Button */
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-weight: 800;
+      }
+
+      h1 {
+        font-size: 1.75em;
+      }
+
+      h2 {
+        font-size: 1.5em;
+      }
+
+      h3 {
+        font-size: 1.1em;
+      }
+
+      h6 {
+        font-size: 0.75em;
+      }
+    </style>
+    <!-- Modal content -->
+    <!-- For language, see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang -->
+    <div id="main-modal" class="modal-content" role="dialog" aria-modal="true">
+      <button id="close_modal" class="modal_close">Close Window</button>
+      <div id="modal-body">
+        <h2 id="modal-status" style="font-weight: 100">
+          Loading Information...
+        </h2>
+        <div id="modal-content" style="display: block">
+          <div class="w3-bar w3-black">
+            <button
+              id="tab_Collaborators"
+              role="button"
+              aria-pressed="false"
+              class="w3-button"
+            >
+              Collaborators
+            </button>
+            <button
+              id="tab_Locked"
+              role="button"
+              aria-pressed="false"
+              class="w3-button"
+            >
+              Locked Sections
+            </button>
+            <button
+              id="tab_Text"
+              role="button"
+              aria-pressed="false"
+              class="w3-button"
+            >
+              Text Changes
+            </button>
+          </div>
+          <div id="Collaborators" class="changes"></div>
+
+          <div id="Locked" class="changes" style="display: none"></div>
+
+          <div id="Text" class="changes" style="display: none"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
