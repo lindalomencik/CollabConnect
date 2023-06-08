@@ -1,0 +1,157 @@
+<script>
+  var myColor = [];
+  function colorSuccess(color){
+    myColor.push(color);
+  }
+  google.script.run.withSuccessHandler(colorSuccess).getMyColor();
+
+  var myUser = [];
+  function userSuccess(user){
+    myUser.push(user);
+  }
+  google.script.run.withSuccessHandler(userSuccess).getActiveUser();
+
+  var collabList = [];
+  function onEditorSuccess(editors){
+    collabList.push(Object.entries(editors));
+  }
+  google.script.run.withSuccessHandler(onEditorSuccess).getAllEditors(); 
+
+
+  function listCollaborators(){
+    function onSuccess(editors){
+      const div = document.querySelector('.collab_list');
+
+      for(i in Object.entries(editors)){
+        const spanL = document.createElement('span');
+        const spanR = document.createElement('span');
+
+        spanL.className = "left_span";
+        spanR.className = "right_span";
+
+        const div_icon = document.createElement('div');
+        const att = document.createAttribute("class");  
+        att.value = "user_icon";
+        div_icon.setAttributeNode(att);
+
+        const p = document.createElement('p');
+        const p_att = document.createAttribute("class");  
+        p_att.value = "user_p";
+        p.setAttributeNode(p_att);
+
+        const color = Object.entries(editors)[i][1]; 
+        p.textContent = Object.entries(editors)[i][0];
+        div_icon.style.cssText =`background-color: ${color}`;
+
+        spanL.append(div_icon);
+        spanR.append(p);
+
+        const user_div = document.createElement('div');
+        user_div.append(spanL);
+        user_div.append(spanR);
+        div.append(user_div);
+   
+      }
+    }
+
+    google.script.run.withSuccessHandler(onSuccess)
+      .getAllEditors(); 
+  }
+
+  function addButton(){
+    const btn = document.querySelector('.adder');    
+    google.script.run.reportSelection();
+    
+  }
+
+  function refreshButton(){
+    const btn = document.querySelector('.refresh');
+    google.script.run.openSidebar();
+  }
+
+  function unlockButton(title){
+    google.script.run.unlockSection(title);
+  }
+
+      
+  function updateLockedSections(){
+    function onFailure(error) {
+      var div = document.getElementById('output');
+      div.innerHTML = "ERROR: " + error.message;
+    }
+    function onSuccess(lockedSections) {
+      const output = document.querySelector(".output_sidebar");
+      for (var i = 0; i <= lockedSections.length; i++){
+        if(lockedSections.length > 0){
+          // console.log(lockedSections[i]);
+          if(lockedSections[i][5] == null){
+            const div = document.createElement('div');
+            const att = document.createAttribute("class");  
+            att.value = "section_component";
+            div.setAttributeNode(att);
+
+            if(collabList[0]){
+              for (var j = 0; j<collabList[0].length; j++) {
+                if (lockedSections[i][3] === collabList[0][j][0]){
+                  const color = collabList[0][j][1]; 
+                  div.style.cssText = `border-left: 3px solid ${color};`
+                }
+              }
+            }
+            
+            const h3 = document.createElement('h3');
+            const p1 = document.createElement('p');
+            const p2 = document.createElement('p');
+            h3.textContent = lockedSections[i][1];
+            p1.textContent = lockedSections[i][2];
+            p2.textContent = lockedSections[i][3];
+            p1.style.cssText = 'height:60px; line-height:20px; overflow:hidden;';
+            div.append(h3);
+            div.append(p1);
+            div.append(p2);
+
+            if (lockedSections[i][3] == myUser[0]){
+              const btn_div = document.createElement('div');
+              const div_att = document.createAttribute("class");  
+              div_att.value = "unlock_btn_div";
+              btn_div.setAttributeNode(div_att);
+
+              const btn = document.createElement('button')
+              btn.style.cssText =`background: ${myColor}`;
+              btn.textContent = "Unlock";
+
+              const att = document.createAttribute("class");  
+              att.value = "unlock";
+              btn.setAttributeNode(att);
+
+              const att_id = document.createAttribute("value");  
+              att_id.value = lockedSections[i][1];
+              btn.setAttributeNode(att_id);
+
+              const att_click = document.createAttribute("onclick");  
+              att_click.value = "unlockButton(this.value)";
+              btn.setAttributeNode(att_click);
+
+              btn_div.append(btn);
+              div.append(btn_div);
+            }
+            output.append(div);
+          }
+        }
+      }
+    }
+
+    google.script.run.withFailureHandler(onFailure)
+      .getAllLockedSections();
+    google.script.run.withSuccessHandler(onSuccess)
+      .getAllLockedSections();
+
+    return true;
+  }
+
+  function getElementsByClassName(className) {
+    var body = DocumentApp.getActiveDocument().getBody();
+    var elements = body.getElementsByClassName(className);
+    return elements;
+  }
+</script>
